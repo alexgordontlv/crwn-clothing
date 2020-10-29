@@ -1,0 +1,3 @@
+    {
+        this.props.currentUser ? <div className='name'>{`WELCOME ${this.props.currentUser.displayName.toUpperCase()}!`}</div> : null
+      }

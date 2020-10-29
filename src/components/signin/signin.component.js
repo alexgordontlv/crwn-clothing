@@ -1,11 +1,10 @@
 import React from 'react';
-
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-
-import { signInWithGoogle } from '../../firebase/firebase.utils';
-
+import {auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import { Redirect } from "react-router-dom";
 import './signin.styles.scss';
+
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -13,16 +12,37 @@ class SignIn extends React.Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      redirect: null
     };
   }
+  
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
-
-    this.setState({ email: '', password: '' });
+    const {email,password} = this.state;
+    try{
+      await auth.signInWithEmailAndPassword(email,password);
+      this.setState({ 
+        email: '',
+         password: '',
+         redirect: "/shop"
+         }); 
+   
+    }catch(err){
+      alert('wrong username or password')
+      console.log(err);
+    }
+    
   };
-
+  googleClick =  async ()=>{
+    await signInWithGoogle();
+    this.setState({ 
+      email: '',
+       password: '',
+       redirect: "/shop"
+       }); 
+  }
   handleChange = event => {
     const { value, name } = event.target;
 
@@ -30,6 +50,9 @@ class SignIn extends React.Component {
   };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     return (
       <div className='sign-in'>
         <h2>I already have an account</h2>
@@ -54,9 +77,9 @@ class SignIn extends React.Component {
           />
           <div className='buttons'>
             <CustomButton type='submit'> Sign in </CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-              Sign in with Google
-            </CustomButton>
+            <CustomButton type="button" onClick={this.googleClick} isGoogleSignIn>
+            Sign in with Google
+          </CustomButton>
           </div>
         </form>
       </div>
