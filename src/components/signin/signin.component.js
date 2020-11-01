@@ -12,8 +12,7 @@ class SignIn extends React.Component {
 
     this.state = {
       email: '',
-      password: '',
-      redirect: null
+      password: ''
     };
   }
   
@@ -26,7 +25,6 @@ class SignIn extends React.Component {
       this.setState({ 
         email: '',
          password: '',
-         redirect: "/shop"
          }); 
    
     }catch(err){
@@ -35,14 +33,6 @@ class SignIn extends React.Component {
     }
     
   };
-  googleClick =  async ()=>{
-    await signInWithGoogle();
-    this.setState({ 
-      email: '',
-       password: '',
-       redirect: "/shop"
-       }); 
-  }
   handleChange = event => {
     const { value, name } = event.target;
 
@@ -50,9 +40,6 @@ class SignIn extends React.Component {
   };
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />
-    }
     return (
       <div className='sign-in'>
         <h2>I already have an account</h2>
@@ -77,7 +64,7 @@ class SignIn extends React.Component {
           />
           <div className='buttons'>
             <CustomButton type='submit'> Sign in </CustomButton>
-            <CustomButton type="button" onClick={this.googleClick} isGoogleSignIn>
+            <CustomButton type="button" onClick={signInWithGoogle} isGoogleSignIn>
             Sign in with Google
           </CustomButton>
           </div>
