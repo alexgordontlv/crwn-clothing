@@ -1,4 +1,3 @@
-import { createStore } from 'redux';
 import {createSelector} from 'reselect';
 
 export const selectCart = state => state.cart;
