@@ -8,7 +8,7 @@ import './collections-overview.styles.scss';
 const CollectionOverview = ({collections}) =>{
     return (
         <div>
-        {collections.map(({ id, ...otherCollectionProps }) => (
+        {Object.values(collections).map(({ id, ...otherCollectionProps }) => (
             <CollectionPreview key={id} {...otherCollectionProps} />
           ))}
         </div>
